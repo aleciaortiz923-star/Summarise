@@ -8,9 +8,10 @@ import { BiCrown } from 'react-icons/bi';
 import { RiLeafLine } from 'react-icons/ri';
 import LoginModal from '@/components/LoginModal';
 import { useAuth } from '@/context/AuthContext';
-import { auth } from '@/lib/firebase';
+import { useFirebase } from '@/context/FirebaseProvider';
 
 export default function Home() {
+  const { auth } = useFirebase();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const { user } = useAuth();
 
@@ -23,6 +24,7 @@ export default function Home() {
   };
 
   const handleLogout = async () => {
+    if (!auth) return;
     await auth.signOut();
   };
 

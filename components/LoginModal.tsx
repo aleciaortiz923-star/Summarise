@@ -1,19 +1,26 @@
 import React, { useState } from 'react';
-import { auth } from '@/lib/firebase';
+import { useFirebase } from '@/context/FirebaseProvider';
 import { GoogleAuthProvider, signInWithPopup, signInAnonymously, createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'firebase/auth';
 import { FaUser } from 'react-icons/fa';
 import Image from 'next/image';
+import { useRouter } from 'next/navigation';
+
+import { useAuth } from '@/context/AuthContext';
 
 interface LoginModalProps {
   closeModal: () => void;
 }
 
 const LoginModal: React.FC<LoginModalProps> = ({ closeModal }) => {
+  const { auth } = useFirebase();
+  const { loading } = useAuth();
+  const router = useRouter();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState<string | null>(null);
 
   const handleGoogleLogin = async () => {
+    if (!auth) return;
     const provider = new GoogleAuthProvider();
     try {
       await signInWithPopup(auth, provider);
@@ -24,8 +31,10 @@ const LoginModal: React.FC<LoginModalProps> = ({ closeModal }) => {
   };
 
   const handleGuestLogin = async () => {
+    if (!auth) return;
     try {
       await signInAnonymously(auth);
+      router.push('/for-you');
       closeModal();
     } catch (error: any) {
       setError(error.message);
@@ -33,6 +42,7 @@ const LoginModal: React.FC<LoginModalProps> = ({ closeModal }) => {
   };
 
   const handleEmailLogin = async (e: React.FormEvent) => {
+    if (!auth) return;
     e.preventDefault();
     try {
       await signInWithEmailAndPassword(auth, email, password);
@@ -57,18 +67,18 @@ const LoginModal: React.FC<LoginModalProps> = ({ closeModal }) => {
           <h2 className="modal__title">Log in to Summarist</h2>
           {error && <p className="error-message">{error}</p>}
           
-          <button className="btn login-btn login-btn--guest" onClick={handleGuestLogin}>
+          <button className="btn login-btn login-btn--guest" onClick={handleGuestLogin} disabled={loading}>
             <FaUser className="guest-icon" />
-            <span className="login-btn-text">Login as a Guest</span>
+            <span className="login-btn-text">{loading ? 'Loading...' : 'Login as a Guest'}</span>
           </button>
 
           <div className="separator">or</div>
 
-          <button className="btn login-btn login-btn--google" onClick={handleGoogleLogin}>
+          <button className="btn login-btn login-btn--google" onClick={handleGoogleLogin} disabled={loading}>
             <div className="google-logo-bg">
               <Image src="/assets/google.png" alt="Google logo" width={24} height={24} />
             </div>
-            <span className="login-btn-text">Login with Google</span>
+            <span className="login-btn-text">{loading ? 'Loading...' : 'Login with Google'}</span>
           </button>
 
           <div className="separator">or</div>
@@ -76,7 +86,7 @@ const LoginModal: React.FC<LoginModalProps> = ({ closeModal }) => {
           <form className="login-form" onSubmit={handleEmailLogin}>
             <input type="email" placeholder="Email Address" value={email} onChange={(e) => setEmail(e.target.value)} required />
             <input type="password" placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} required />
-            <button className="btn login-btn--form" type="submit">Login</button>
+            <button className="btn login-btn--form" type="submit" disabled={loading}>{loading ? 'Loading...' : 'Login'}</button>
           </form>
 
           <div className="login-links">

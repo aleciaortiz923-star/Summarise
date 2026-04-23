@@ -7,6 +7,8 @@
    font-family: "Roboto", sans-serif; 
  }
 
+
+
 .suggested-books__books {
   display: grid;
   grid-template-columns: repeat(5, 1fr);
@@ -18,23 +20,9 @@
   padding: 24px 0;
 }
 
-.recommended__title {
-  font-size: 24px;
-  font-weight: bold;
-  color: #032b41;
-  margin-bottom: 8px;
-}
-
-.recommended__subtitle {
-  font-size: 16px;
-  color: #6b757b;
-  margin-bottom: 24px;
-}
-
 .recommended__books {
-  display: grid;
-  grid-template-columns: repeat(5, 1fr);
-  gap: 24px;
+  display: flex;
+  flex-wrap: wrap;
 }
 
 .suggested-books {
@@ -54,9 +42,6 @@
   margin-bottom: 24px;
 }
 
-.recommended-book {
-  position: relative;
-}
 
 .recommended-book__pro-badge {
   position: absolute;
@@ -71,65 +56,70 @@
   z-index: 2;
 }
 
-.recommended-book__image-wrapper {
-  position: relative;
-  width: 100%;
-  height: 150px;
-  margin-bottom: 8px;
-}
-
-.recommended-book__image-wrapper img {
-    border-radius: 8px;
-}
-
-.recommended-book__image-wrapper::after {
-    content: '';
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    height: 50%;
-    background-color: #ea7066;
-    z-index: 0;
-    border-radius: 0 0 8px 8px;
-}
-
-.recommended-book__image-wrapper img {
-    position: relative;
-    z-index: 1;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-}
-
 .recommended-book__details {
   color: #032b41;
 }
 
 .recommended-book__title {
-  font-size: 14px;
+  font-size: 12px;
   font-weight: bold;
   margin-bottom: 4px;
 }
 
 .recommended-book__author {
-  font-size: 12px;
+  font-size: 10px;
   color: #6b757b;
   margin-bottom: 8px;
 }
 
 .recommended-book__subtitle {
-  font-size: 12px;
+  font-size: 10px;
   color: #032b41;
   margin-bottom: 8px;
 }
 
+.recommended-book {
+  position: relative;
+  width: 180px;
+  margin: 12px;
+}
+
+.recommended-book__image-wrapper {
+  position: relative;
+  width: 100%;
+  height: 120px;
+  margin-bottom: 8px;
+}
+
+.recommended-book__image-wrapper img {
+    border-radius: 8px;
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+
+
+
 .recommended-book__info {
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  font-size: 12px;
+  font-size: 10px;
   color: #6b757b;
+  gap: 16px;
+}
+
+
+
+
+
+.suggested-books__title {
+  font-size: 20px;
+  font-weight: bold;
+  color: #032b41;
+  margin-bottom: 24px;
 }
 
 .recommended-book__duration,
@@ -169,21 +159,22 @@
 
 .selected-for-you__book-image-wrapper {
   position: relative;
-  width: 150px;
-  height: 150px;
+  width: 120px;
+  height: 120px;
   flex-shrink: 0;
 }
 
 .selected-for-you__book-image-wrapper::after {
     content: '';
     position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    height: 50%;
-    background-color: #032b41;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 120px;
+    height: 120px;
+    background-color: #d7e9ff;
     z-index: 0;
-    border-radius: 0 0 8px 8px;
+    border-radius: 50%;
 }
 
 .selected-for-you__book-image-wrapper img {
@@ -244,7 +235,8 @@
 
 .nav-for-you__search-container {
   position: relative;
-  width: 300px;
+  width: 100%;
+  max-width: 400px;
 }
 
 .nav-for-you__search-input {
@@ -346,7 +338,7 @@
 
 .for-you-page__main-content {
   flex-grow: 1;
-  padding: 24px;
+  padding: 24px 80px;
   margin-left: 250px; /* Same as sidebar width */
 }
  
@@ -963,53 +955,3 @@
 }
 
 
-@media (max-width: 1024px) {
-  .recommended__books {
-    grid-template-columns: repeat(3, 1fr);
-  }
-}
-
-@media (max-width: 768px) {
-  .sidebar {
-    display: none;
-  }
-
-  .nav-for-you {
-    justify-content: space-between;
-  }
-
-  .nav-for-you__menu-button {
-    display: block;
-    background: none;
-    border: none;
-    font-size: 24px;
-    cursor: pointer;
-  }
-
-  .selected-for-you__book {
-    flex-direction: column;
-    text-align: center;
-  }
-
-  .recommended__books {
-    grid-template-columns: repeat(2, 1fr);
-  }
-}
-
-@media (max-width: 576px) {
-  .recommended__books {
-    grid-template-columns: 1fr;
-  }
-
-  .nav-for-you__search-container {
-    width: 100%;
-    margin-left: 16px;
-  }
-}
- 
-  
- @media (max-width: 576px) { 
-   .nav__list--mobile { 
-     display: none; 
-   } 
- }

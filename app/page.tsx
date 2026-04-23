@@ -1,7 +1,7 @@
 "use client";
 
 import Image from 'next/image';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { AiFillFileText, AiFillBulb, AiFillAudio } from 'react-icons/ai';
 import { BsStarFill, BsStarHalf } from 'react-icons/bs';
 import { BiCrown } from 'react-icons/bi';
@@ -9,11 +9,19 @@ import { RiLeafLine } from 'react-icons/ri';
 import LoginModal from '@/components/LoginModal';
 import { useAuth } from '@/context/AuthContext';
 import { useFirebase } from '@/context/FirebaseProvider';
+import { useRouter } from 'next/navigation';
 
 export default function Home() {
   const { auth } = useFirebase();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const { user } = useAuth();
+  const router = useRouter();
+
+  useEffect(() => {
+    if (user) {
+      router.push('/for-you');
+    }
+  }, [user, router]);
 
   const openModal = () => {
     setIsModalOpen(true);

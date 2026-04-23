@@ -46,7 +46,6 @@ const SuggestedBooks = () => {
       <div className="suggested-books__books">
         {books.slice(0, 5).map((book) => (
           <div key={book.id} className="recommended-book"> {/* Reusing styles from recommended books */}
-            {book.subscriptionRequired && <div className="recommended-book__pro-badge">Pro</div>}
             <div className="recommended-book__image-wrapper">
                 <Image src={book.imageLink} alt={book.title} width={150} height={150} />
             </div>

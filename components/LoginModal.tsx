@@ -1,23 +1,26 @@
-import React, { useState } from 'react';
+'use client';
+
+import React from 'react';
 import { useFirebase } from '@/context/FirebaseProvider';
 import { GoogleAuthProvider, signInWithPopup, signInAnonymously, createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'firebase/auth';
 import { FaUser } from 'react-icons/fa';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
-
 import { useAuth } from '@/context/AuthContext';
+import { useModal } from '@/context/ModalContext';
 
-interface LoginModalProps {
-  closeModal: () => void;
-}
-
-const LoginModal: React.FC<LoginModalProps> = ({ closeModal }) => {
+const LoginModal: React.FC = () => {
   const { auth } = useFirebase();
   const { loading } = useAuth();
+  const { isModalOpen, closeModal } = useModal();
   const router = useRouter();
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [error, setError] = useState<string | null>(null);
+  const [email, setEmail] = React.useState('');
+  const [password, setPassword] = React.useState('');
+  const [error, setError] = React.useState<string | null>(null);
+
+  if (!isModalOpen) {
+    return null;
+  }
 
   const handleGoogleLogin = async () => {
     if (!auth) return;
@@ -44,17 +47,26 @@ const LoginModal: React.FC<LoginModalProps> = ({ closeModal }) => {
   const handleEmailLogin = async (e: React.FormEvent) => {
     if (!auth) return;
     e.preventDefault();
+    setError(null);
+
+    if (email !== 'guest@gmail.com' || password !== 'guest123') {
+      setError('Invalid email and/or password');
+      return;
+    }
+
     try {
       await signInWithEmailAndPassword(auth, email, password);
       closeModal();
     } catch (error: any) {
-      // For simplicity, not distinguishing between login/register errors
-      // You might want to handle this more gracefully
-      try {
-        await createUserWithEmailAndPassword(auth, email, password);
-        closeModal();
-      } catch (registerError: any) {
-        setError(registerError.message);
+      if (error.code === 'auth/user-not-found') {
+        try {
+          await createUserWithEmailAndPassword(auth, email, password);
+          closeModal();
+        } catch (registerError: any) {
+          setError(registerError.message);
+        }
+      } else {
+        setError(error.message);
       }
     }
   };
@@ -65,7 +77,7 @@ const LoginModal: React.FC<LoginModalProps> = ({ closeModal }) => {
         <button className="modal__close-btn" onClick={closeModal}>&times;</button>
         <div className="modal__content">
           <h2 className="modal__title">Log in to Summarist</h2>
-          {error && <p className="error-message">{error}</p>}
+          {error && <p className="error-message" style={{ color: 'red', textAlign: 'center', marginBottom: '1rem' }}>{error}</p>}
           
           <button className="btn login-btn login-btn--guest" onClick={handleGuestLogin} disabled={loading}>
             <FaUser className="guest-icon" />

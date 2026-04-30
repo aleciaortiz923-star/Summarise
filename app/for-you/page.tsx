@@ -1,35 +1,42 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect } from 'react';
+import { useAuth } from '@/context/AuthContext';
 import Sidebar from '@/components/Sidebar';
 import Nav from '@/components/Nav';
 import SelectedForYou from '@/components/SelectedForYou';
 import Recommended from '@/components/Recommended';
 import SuggestedBooks from '@/components/SuggestedBooks';
-import LoginModal from '@/components/LoginModal';
+import { useModal } from '@/context/ModalContext';
 
 const ForYouPage = () => {
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const { user, loading } = useAuth();
+  const { openModal } = useModal();
 
-  const openModal = () => {
-    setIsModalOpen(true);
-  };
-
-  const closeModal = () => {
-    setIsModalOpen(false);
-  };
+  useEffect(() => {
+    if (!loading && !user) {
+      openModal();
+    }
+  }, [user, loading, openModal]);
 
   return (
     <div className="for-you-page__container">
-      {isModalOpen && <LoginModal closeModal={closeModal} />}
       <div className="sidebar-wrapper">
-        <Sidebar openModal={openModal} />
+        <Sidebar />
       </div>
       <div className="for-you-page__main-content">
         <Nav />
-        <SelectedForYou />
-        <Recommended />
-        <SuggestedBooks />
+        {user ? (
+          <>
+            <SelectedForYou />
+            <Recommended />
+            <SuggestedBooks />
+          </>
+        ) : (
+          <div style={{ textAlign: 'center', marginTop: '5rem', fontSize: '1.5rem' }}>
+            Please log in to see your personalized recommendations.
+          </div>
+        )}
       </div>
     </div>
   );

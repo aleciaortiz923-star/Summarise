@@ -10,17 +10,19 @@ import { useAuth } from '@/context/AuthContext';
 import { useFirebase } from '@/context/FirebaseProvider';
 import { FiLogOut, FiLogIn } from 'react-icons/fi';
 import { FaBook } from 'react-icons/fa';
+import { useModal } from '@/context/ModalContext';
 
-const Sidebar = ({ openModal }: { openModal: () => void }) => {
+const Sidebar = () => {
   const pathname = usePathname();
   const { user } = useAuth();
   const { auth } = useFirebase();
+  const { openModal } = useModal();
 
   const handleLogout = async () => {
     if (auth) {
       await auth.signOut();
+      openModal();
     }
-    openModal();
   };
 
   const links = [

@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
 import { AiFillAudio, AiFillStar } from 'react-icons/ai';
+import Link from 'next/link';
 
 interface Book {
   id: string;
@@ -45,27 +46,29 @@ const Recommended = () => {
       <p className="recommended__subtitle">We think you’ll like these</p>
       <div className="recommended__books">
         {books.slice(0, 5).map((book) => (
-          <div key={book.id} className="recommended-book">
-            {book.subscriptionRequired && <div className="recommended-book__pro-badge">Pro</div>}
-            <div className="recommended-book__image-wrapper">
-                <Image src={book.imageLink} alt={book.title} width={150} height={150} />
-            </div>
-            <div className="recommended-book__details">
-              <h3 className="recommended-book__title">{book.title}</h3>
-              <p className="recommended-book__author">{book.author}</p>
-              <p className="recommended-book__subtitle">{book.subTitle}</p>
-              <div className="recommended-book__info">
-                <div className="recommended-book__duration">
-                  <AiFillAudio />
-                  <span>4:20</span>
-                </div>
-                <div className="recommended-book__rating">
-                  <AiFillStar />
-                  <span>{book.averageRating}</span>
+          <Link href={`/book/${book.id}`} key={book.id}>
+            <div className="recommended-book">
+              {book.subscriptionRequired && <div className="recommended-book__pro-badge">Pro</div>}
+              <div className="recommended-book__image-wrapper">
+                  <Image src={book.imageLink} alt={book.title} width={150} height={150} />
+              </div>
+              <div className="recommended-book__details">
+                <h3 className="recommended-book__title">{book.title}</h3>
+                <p className="recommended-book__author">{book.author}</p>
+                <p className="recommended-book__subtitle">{book.subTitle}</p>
+                <div className="recommended-book__info">
+                  <div className="recommended-book__duration">
+                    <AiFillAudio />
+                    <span>4:20</span>
+                  </div>
+                  <div className="recommended-book__rating">
+                    <AiFillStar />
+                    <span>{book.averageRating}</span>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
+          </Link>
         ))}
       </div>
     </section>

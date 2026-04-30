@@ -3,6 +3,8 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { AuthProvider } from "@/context/AuthContext";
 import { FirebaseProvider } from "@/context/FirebaseProvider";
+import { ModalProvider } from "@/context/ModalContext";
+import LoginModal from "@/components/LoginModal";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -31,7 +33,12 @@ export default function RootLayout({
     >
       <body className="min-h-full flex flex-col">
         <FirebaseProvider>
-          <AuthProvider>{children}</AuthProvider>
+          <AuthProvider>
+            <ModalProvider>
+              {children}
+              <LoginModal />
+            </ModalProvider>
+          </AuthProvider>
         </FirebaseProvider>
       </body>
     </html>

@@ -10,14 +10,28 @@
 
 
 .suggested-books__books {
-  display: grid;
-  grid-template-columns: repeat(5, 1fr);
-  gap: 24px;
+  display: flex;
+  flex-wrap: wrap;
 }
 
 /* RECOMMENDED */
 .recommended {
   padding: 24px 0;
+}
+
+.recommended__title,
+.suggested-books__title {
+  font-size: 20px;
+  font-weight: bold;
+  color: #032b41;
+  margin-bottom: 8px;
+}
+
+.recommended__subtitle,
+.suggested-books__subtitle {
+  font-size: 16px;
+  color: #6b757b;
+  margin-bottom: 24px;
 }
 
 .recommended__books {
@@ -29,18 +43,13 @@
   padding: 24px 0;
 }
 
-.suggested-books__title {
-  font-size: 24px;
-  font-weight: bold;
-  color: #032b41;
-  margin-bottom: 8px;
-}
 
-.suggested-books__subtitle {
-  font-size: 16px;
-  color: #6b757b;
-  margin-bottom: 24px;
-}
+
+
+
+
+
+
 
 
 .recommended-book__pro-badge {
@@ -61,33 +70,33 @@
 }
 
 .recommended-book__title {
-  font-size: 12px;
+  font-size: 16px;
   font-weight: bold;
   margin-bottom: 4px;
 }
 
 .recommended-book__author {
-  font-size: 10px;
+  font-size: 14px;
   color: #6b757b;
   margin-bottom: 8px;
 }
 
 .recommended-book__subtitle {
-  font-size: 10px;
+  font-size: 12px;
   color: #032b41;
   margin-bottom: 8px;
 }
 
 .recommended-book {
   position: relative;
-  width: 180px;
-  margin: 12px;
+  width: 200px;
+  margin: 8px;
 }
 
 .recommended-book__image-wrapper {
   position: relative;
   width: 100%;
-  height: 120px;
+  height: 200px;
   margin-bottom: 8px;
 }
 
@@ -106,21 +115,18 @@
 .recommended-book__info {
   display: flex;
   align-items: center;
-  font-size: 10px;
+  font-size: 12px;
   color: #6b757b;
-  gap: 16px;
+  gap: 24px;
 }
 
 
 
 
 
-.suggested-books__title {
-  font-size: 20px;
-  font-weight: bold;
-  color: #032b41;
-  margin-bottom: 24px;
-}
+
+
+
 
 .recommended-book__duration,
 .recommended-book__rating {
@@ -148,6 +154,7 @@
   display: flex;
   gap: 24px;
   align-items: center;
+  max-width: 800px;
 }
 
 .selected-for-you__book-subtitle {
@@ -180,6 +187,9 @@
 .selected-for-you__book-image-wrapper img {
     position: relative;
     z-index: 1;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
 }
 
 
@@ -338,8 +348,11 @@
 
 .for-you-page__main-content {
   flex-grow: 1;
-  padding: 24px 80px;
   margin-left: 250px; /* Same as sidebar width */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 24px 0;
 }
  
   
@@ -549,6 +562,7 @@
    font-weight: 500; 
    color: #6b757b; 
    margin-bottom: 16px; 
+   transition: color 0.3s ease-in-out; 
  } 
   
  .statistics__heading:last-child { 
@@ -954,4 +968,123 @@
   font-size: 14px;
 }
 
+/* BOOK PAGE */
+.book-page__container {
+  display: flex;
+  gap: 48px;
+  padding: 32px;
+  max-width: 1000px;
+}
+
+.book-page__left {
+  flex: 2;
+}
+
+.book-page__right {
+  flex: 1;
+}
+
+.book-page__title {
+  font-size: 32px;
+  font-weight: bold;
+  color: #032b41;
+  margin-bottom: 8px;
+}
+
+.book-page__author {
+  font-size: 18px;
+  color: #6b757b;
+  margin-bottom: 8px;
+}
+
+.book-page__subtitle {
+  font-size: 18px;
+  color: #032b41;
+  margin-bottom: 24px;
+  border-bottom: 1px solid #e0e0e0;
+  padding-bottom: 24px;
+}
+
+.book-page__info-wrapper {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+  margin-bottom: 24px;
+  border-bottom: 1px solid #e0e0e0;
+  padding-bottom: 24px;
+}
+
+.book-page__info-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 16px;
+  color: #032b41;
+  font-weight: bold;
+}
+
+.book-page__info-item svg {
+  font-size: 22px;
+  stroke-width: 1;
+}
+
+.book-page__actions {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.book-page__button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12.5px 25px;
+  border-radius: 4px;
+  font-size: 17.5px;
+  font-weight: 500;
+  cursor: pointer;
+  border: none;
+  width: auto;
+}
+
+.book-page__button--primary,
+.book-page__button--secondary {
+  background-color: #032b41;
+  color: white;
+}
+
+.book-page__add-to-library {
+  color: #0365f2;
+  font-weight: 500;
+  display: block;
+  text-align: center;
+  margin-bottom: 24px;
+  border-bottom: 1px solid #e0e0e0;
+  padding-bottom: 24px;
+}
+
+.book-page__section-title {
+  font-size: 20px;
+  font-weight: bold;
+  color: #032b41;
+  margin-bottom: 16px;
+}
+
+.book-page__tags {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.book-page__tag {
+  background-color: #f1f6f4;
+  padding: 8px 16px;
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+.book-page__section p {
+  line-height: 1.6;
+  color: #394547;
+}
 

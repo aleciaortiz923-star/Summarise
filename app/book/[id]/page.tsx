@@ -33,6 +33,11 @@ const BookPage = () => {
   const id = params.id as string;
   const [book, setBook] = useState<Book | null>(null);
   const [loading, setLoading] = useState(true);
+  const [isAdded, setIsAdded] = useState(false);
+
+  const handleAddToLibrary = () => {
+    setIsAdded(true);
+  };
 
   useEffect(() => {
     if (id) {
@@ -89,6 +94,9 @@ const BookPage = () => {
       <div className="for-you-page__main-content">
         <Nav />
         <div className="book-page__container">
+          <div className="book-page__right">
+            <Image src={book.imageLink} alt={book.title} width={300} height={300} />
+          </div>
           <div className="book-page__left">
             <h1 className="book-page__title">{book.title}</h1>
             <p className="book-page__author">{book.author}</p>
@@ -121,7 +129,9 @@ const BookPage = () => {
                 Listen
               </button>
             </div>
-            <a href="#" className="book-page__add-to-library">+ Add title to My Library</a>
+            <button onClick={handleAddToLibrary} disabled={isAdded} className="book-page__add-to-library">
+              {isAdded ? 'Added to Library' : '+ Add title to My Library'}
+            </button>
             <div className="book-page__section">
               <h3 className="book-page__section-title">What's it about?</h3>
               <div className="book-page__tags">
@@ -133,9 +143,6 @@ const BookPage = () => {
               <h3 className="book-page__section-title">About the author</h3>
               <p>{book.authorDescription}</p>
             </div>
-          </div>
-          <div className="book-page__right">
-            <Image src={book.imageLink} alt={book.title} width={300} height={300} />
           </div>
         </div>
       </div>

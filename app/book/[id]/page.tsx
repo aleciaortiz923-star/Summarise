@@ -8,6 +8,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faLightbulb } from '@fortawesome/free-regular-svg-icons';
 import Sidebar from '@/components/Sidebar';
 import Nav from '@/components/Nav';
+import Link from 'next/link';
 
 interface Book {
   id: string;
@@ -124,10 +125,12 @@ const BookPage = () => {
                 <AiOutlineBook style={{ marginRight: '8px' }} />
                 Read
               </button>
-              <button className="book-page__button book-page__button--secondary">
-                <AiOutlineAudio style={{ marginRight: '8px' }} />
-                Listen
-              </button>
+              <Link href={`/player/${id}`}>
+                <button className="book-page__button book-page__button--secondary">
+                  <AiOutlineAudio style={{ marginRight: '8px' }} />
+                  Listen
+                </button>
+              </Link>
             </div>
             <button onClick={handleAddToLibrary} disabled={isAdded} className="book-page__add-to-library">
               {isAdded ? 'Added to Library' : '+ Add title to My Library'}

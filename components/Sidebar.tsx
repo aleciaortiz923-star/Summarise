@@ -11,12 +11,15 @@ import { useFirebase } from '@/context/FirebaseProvider';
 import { FiLogOut, FiLogIn } from 'react-icons/fi';
 import { FaBook } from 'react-icons/fa';
 import { useModal } from '@/context/ModalContext';
+import { useFontSize } from '@/context/FontSizeContext';
 
 const Sidebar = () => {
   const pathname = usePathname();
   const { user } = useAuth();
   const { auth } = useFirebase();
   const { openModal } = useModal();
+  const { fontSize, setFontSize } = useFontSize();
+  const isPlayerPage = pathname.startsWith('/player/');
 
   const handleLogout = async () => {
     if (auth) {
@@ -38,7 +41,7 @@ const Sidebar = () => {
   ];
 
   return (
-    <div className="sidebar">
+    <div className={`sidebar ${isPlayerPage ? 'sidebar--player' : ''}`}>
       <div className="sidebar__logo">
         <FaBook />
         Summarist
@@ -55,6 +58,22 @@ const Sidebar = () => {
           );
         })}
       </div>
+      {pathname.startsWith('/player/') && (
+        <div className="font-size-controls">
+          <div className={`font-size-control ${fontSize === 'small' ? 'font-size-control--active' : ''}`} onClick={() => setFontSize('small')}>
+            <span>Aa</span>
+          </div>
+          <div className={`font-size-control ${fontSize === 'medium' ? 'font-size-control--active' : ''}`} onClick={() => setFontSize('medium')}>
+            <span>Aa</span>
+          </div>
+          <div className={`font-size-control ${fontSize === 'large' ? 'font-size-control--active' : ''}`} onClick={() => setFontSize('large')}>
+            <span>Aa</span>
+          </div>
+          <div className={`font-size-control ${fontSize === 'xlarge' ? 'font-size-control--active' : ''}`} onClick={() => setFontSize('xlarge')}>
+            <span>Aa</span>
+          </div>
+        </div>
+      )}
       <div className="sidebar__bottom-links">
         {bottomLinks.map((link) => {
           const Icon = link.icon;

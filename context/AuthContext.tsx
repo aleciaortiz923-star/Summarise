@@ -18,6 +18,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
   useEffect(() => {
     if (auth) {
+      auth.signOut();
       const unsubscribe = onAuthStateChanged(auth, (user) => {
         setUser(user);
         setLoading(false);

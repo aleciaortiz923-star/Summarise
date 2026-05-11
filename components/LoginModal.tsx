@@ -37,8 +37,8 @@ const LoginModal: React.FC = () => {
     if (!auth) return;
     try {
       await signInAnonymously(auth);
-      router.push('/for-you');
       closeModal();
+      router.push('/for-you');
     } catch (error: any) {
       setError(error.message);
     }

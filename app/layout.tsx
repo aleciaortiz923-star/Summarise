@@ -4,7 +4,10 @@ import "./globals.css";
 import { AuthProvider } from "@/context/AuthContext";
 import { FirebaseProvider } from "@/context/FirebaseProvider";
 import { ModalProvider } from "@/context/ModalContext";
+import { FontSizeProvider } from "@/context/FontSizeContext";
 import LoginModal from "@/components/LoginModal";
+import Sidebar from "@/components/Sidebar";
+
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -35,8 +38,15 @@ export default function RootLayout({
         <FirebaseProvider>
           <AuthProvider>
             <ModalProvider>
-              {children}
-              <LoginModal />
+              <FontSizeProvider>
+                <div className="layout-container">
+                  <Sidebar />
+                  <main className="layout-main-content">
+                    {children}
+                  </main>
+                </div>
+                <LoginModal />
+              </FontSizeProvider>
             </ModalProvider>
           </AuthProvider>
         </FirebaseProvider>

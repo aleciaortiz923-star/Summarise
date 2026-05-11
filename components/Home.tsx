@@ -37,11 +37,7 @@ function HomeComponent() {
     "Maximize your abilities",
   ];
 
-  useEffect(() => {
-    if (user) {
-      router.push('/for-you');
-    }
-  }, [user, router]);
+
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -101,7 +97,7 @@ function HomeComponent() {
                 {!user && <button className="btn home__cta--btn" onClick={openModal}>Login</button>}
               </div>
               <figure className="landing__image--mask">
-                <Image src="/assets/landing.png" alt="landing" width={400} height={400} />
+                <Image src="/assets/landing.png" alt="landing" width={400} height={400} loading="eager" />
               </figure>
             </div>
           </div>

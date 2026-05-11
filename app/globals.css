@@ -12,7 +12,7 @@
   font-weight: bold;
   color: #032b41;
   margin-bottom: 32px;
-  text-align: center;
+  text-align: left;
   border-bottom: 1px solid #e0e0e0;
   padding-bottom: 16px;
 }
@@ -132,6 +132,76 @@
   min-width: 40px;
   text-align: center;
   font-weight: 900;
+}
+
+.settings__container {
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.settings__title {
+  font-size: 27px;
+  font-weight: bold;
+  color: #032b41;
+  margin-bottom: 32px;
+  border-bottom: 1px solid #e0e0e0;
+  padding-bottom: 16px;
+  width: 100%;
+  max-width: 800px;
+}
+
+
+
+.settings__content {
+  width: 100%;
+  max-width: 800px;
+}
+
+.settings__subscription {
+  border-bottom: 1px solid #e0e0e0;
+  padding-bottom: 24px;
+}
+
+.settings__subscription-title,
+.settings__user-details-title {
+  font-size: 20px;
+  font-weight: bold;
+  color: #032b41;
+  margin-bottom: 8px;
+}
+
+.settings__subscription-plan,
+.settings__user-email {
+  font-size: 16px;
+  color: #394547;
+  margin-bottom: 16px;
+}
+
+.settings__upgrade-btn {
+  max-width: 200px;
+}
+
+.settings__logged-out {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.settings__logged-out-image {
+  margin-bottom: 24px;
+}
+
+.settings__logged-out-text {
+  font-size: 18px;
+  color: #394547;
+  margin: 24px 0;
+}
+
+.settings__login-btn {
+  max-width: 200px;
 }
 
 .player-controls__container {

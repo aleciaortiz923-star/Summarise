@@ -9,6 +9,9 @@ import { faLightbulb } from '@fortawesome/free-regular-svg-icons';
 import Sidebar from '@/components/Sidebar';
 import Nav from '@/components/Nav';
 import Link from 'next/link';
+import Skeleton from '@/components/Skeleton';
+import { useAuth } from '@/context/AuthContext';
+import { useModal } from '@/context/ModalContext';
 
 interface Book {
   id: string;
@@ -35,6 +38,8 @@ const BookPage = () => {
   const [book, setBook] = useState<Book | null>(null);
   const [loading, setLoading] = useState(true);
   const [isAdded, setIsAdded] = useState(false);
+  const { user } = useAuth();
+  const { openModal } = useModal();
 
   const handleAddToLibrary = () => {
     setIsAdded(true);
@@ -51,7 +56,9 @@ const BookPage = () => {
         } catch (error) {
           console.error('Error fetching book:', error);
         } finally {
-          setLoading(false);
+          setTimeout(() => {
+            setLoading(false);
+          }, 500);
         }
       };
 
@@ -61,15 +68,51 @@ const BookPage = () => {
 
   if (loading) {
     return (
-        <div className="for-you-page__container">
-            <div className="sidebar-wrapper">
-                <Sidebar />
-            </div>
-            <div className="for-you-page__main-content">
-                <Nav />
-                <div>Loading...</div>
-            </div>
+      <div className="for-you-page__container">
+        <div className="sidebar-wrapper">
+          <Sidebar />
         </div>
+        <div className="for-you-page__main-content">
+          <Nav />
+          <div className="book-page__container">
+            <div className="book-page__right">
+              <Skeleton width="300px" height="300px" />
+            </div>
+            <div className="book-page__left">
+              <Skeleton width="300px" height="36px" />
+              <Skeleton width="150px" height="20px" />
+              <Skeleton width="200px" height="16px" />
+              <div className="book-page__info-wrapper">
+                <Skeleton width="100px" height="20px" />
+                <Skeleton width="100px" height="20px" />
+                <Skeleton width="100px" height="20px" />
+                <Skeleton width="100px" height="20px" />
+              </div>
+              <div className="book-page__actions">
+                <Skeleton width="120px" height="48px" />
+                <Skeleton width="120px" height="48px" />
+              </div>
+              <Skeleton width="180px" height="20px" />
+              <div className="book-page__section">
+                <Skeleton width="150px" height="24px" />
+                <div className="book-page__tags">
+                  <Skeleton width="80px" height="24px" />
+                  <Skeleton width="80px" height="24px" />
+                </div>
+                <Skeleton width="100%" height="16px" />
+                <Skeleton width="100%" height="16px" />
+                <Skeleton width="50%" height="16px" />
+              </div>
+              <div className="book-page__section">
+                <Skeleton width="150px" height="24px" />
+                <Skeleton width="100%" height="16px" />
+                <Skeleton width="100%" height="16px" />
+                <Skeleton width="50%" height="16px" />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     );
   }
 
@@ -89,9 +132,7 @@ const BookPage = () => {
 
   return (
     <div className="for-you-page__container">
-      <div className="sidebar-wrapper">
-        <Sidebar />
-      </div>
+
       <div className="for-you-page__main-content">
         <Nav />
         <div className="book-page__container">
@@ -99,7 +140,10 @@ const BookPage = () => {
             <Image src={book.imageLink} alt={book.title} width={300} height={300} />
           </div>
           <div className="book-page__left">
-            <h1 className="book-page__title">{book.title}</h1>
+            <h1 className="book-page__title">
+              {book.title}
+              {!user && book.subscriptionRequired && <span className="book-page__premium-tag"> (Premium)</span>}
+            </h1>
             <p className="book-page__author">{book.author}</p>
             <p className="book-page__subtitle">{book.subTitle}</p>
             <div className="book-page__info-wrapper">
@@ -125,16 +169,28 @@ const BookPage = () => {
                 <AiOutlineBook style={{ marginRight: '8px' }} />
                 Read
               </button>
-              <Link href={`/player/${id}`}>
-                <button className="book-page__button book-page__button--secondary">
+              {!user && (
+                <button
+                  className="book-page__button book-page__button--secondary"
+                  onClick={() => openModal(`/player/${id}`)}
+                >
                   <AiOutlineAudio style={{ marginRight: '8px' }} />
                   Listen
                 </button>
-              </Link>
+              )}
+              {user && (
+                <Link href={`/player/${id}`}>
+                  <button className="book-page__button book-page__button--secondary">
+                    <AiOutlineAudio style={{ marginRight: '8px' }} />
+                    Listen
+                  </button>
+                </Link>
+              )}
             </div>
             <button onClick={handleAddToLibrary} disabled={isAdded} className="book-page__add-to-library">
-              {isAdded ? 'Added to Library' : '+ Add title to My Library'}
-            </button>
+                {isAdded ? 'Added to Library' : '+ Add title to My Library'}
+              </button>
+              
             <div className="book-page__section">
               <h3 className="book-page__section-title">What's it about?</h3>
               <div className="book-page__tags">

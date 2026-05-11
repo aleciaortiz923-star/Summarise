@@ -3,12 +3,13 @@
 import { useAuth } from '@/context/AuthContext';
 import { useModal } from '@/context/ModalContext';
 import Nav from '@/components/Nav';
-import React from 'react';
 import Image from 'next/image';
+import { useRouter } from 'next/navigation';
 
 const SettingsPage = () => {
-  const { user } = useAuth();
+    const { user } = useAuth();
   const { openModal } = useModal();
+  const router = useRouter();
 
   return (
     <div>
@@ -20,7 +21,9 @@ const SettingsPage = () => {
             <div className="settings__subscription">
               <h2 className="settings__subscription-title">Your Subscription Plan</h2>
                             <p className="settings__subscription-plan">Premium Plus</p>
-              <button className="btn settings__upgrade-btn">Manage Subscription</button>
+                            <button className="btn settings__upgrade-btn" onClick={() => router.push('/subscription')}>
+                Manage Subscription
+              </button>
             </div>
             <div className="settings__user-details">
                             <h2 className="settings__user-details-title">Email</h2>
@@ -33,7 +36,7 @@ const SettingsPage = () => {
               <Image src="/assets/login.png" alt="Login to see your details" width={400} height={400} />
             </div>
             <p className="settings__logged-out-text">Log in to your account to see your details.</p>
-            <button className="btn settings__login-btn" onClick={openModal}>
+            <button className="btn settings__login-btn" onClick={() => openModal()}>
               Login
             </button>
           </div>

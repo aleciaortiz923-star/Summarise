@@ -4,6 +4,8 @@ import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
 import { AiFillAudio, AiFillStar } from 'react-icons/ai';
 import Link from 'next/link';
+import Skeleton from './Skeleton';
+import { useAuth } from '@/context/AuthContext';
 
 interface Book {
   id: string;
@@ -25,6 +27,8 @@ interface Book {
 
 const SuggestedBooks = () => {
   const [books, setBooks] = useState<Book[]>([]);
+  const [loading, setLoading] = useState(true);
+  const { user } = useAuth();
 
   useEffect(() => {
     const fetchBooks = async () => {
@@ -34,6 +38,10 @@ const SuggestedBooks = () => {
         setBooks(data);
       } catch (error) {
         console.error('Error fetching suggested books:', error);
+      } finally {
+        setTimeout(() => {
+          setLoading(false);
+        }, 500);
       }
     };
 
@@ -45,30 +53,50 @@ const SuggestedBooks = () => {
       <h2 className="suggested-books__title">Suggested Books</h2>
       <p className="suggested-books__subtitle">Browse those books</p>
       <div className="suggested-books__books">
-        {books.slice(0, 5).map((book) => (
-          <Link href={`/book/${book.id}`} key={book.id}>
-            <div className="recommended-book"> {/* Reusing styles from recommended books */}
-              <div className="recommended-book__image-wrapper">
-                  <Image src={book.imageLink} alt={book.title} width={150} height={150} />
-              </div>
+        {loading ? (
+          Array.from({ length: 5 }).map((_, index) => (
+            <div className="recommended-book" key={index}>
+              <Skeleton width="150px" height="150px" />
               <div className="recommended-book__details">
-                <h3 className="recommended-book__title">{book.title}</h3>
-                <p className="recommended-book__author">{book.author}</p>
-                <p className="recommended-book__subtitle">{book.subTitle}</p>
+                <Skeleton width="100%" height="20px" />
+                <Skeleton width="75%" height="16px" />
+                <Skeleton width="50%" height="16px" />
                 <div className="recommended-book__info">
-                  <div className="recommended-book__duration">
-                    <AiFillAudio />
-                    <span>3:34</span>
-                  </div>
-                  <div className="recommended-book__rating">
-                    <AiFillStar />
-                    <span>{book.averageRating}</span>
-                  </div>
+                  <Skeleton width="50px" height="16px" />
+                  <Skeleton width="50px" height="16px" />
                 </div>
               </div>
             </div>
-          </Link>
-        ))}
+          ))
+        ) : (
+          books.slice(0, 5).map((book) => (
+            <Link href={`/book/${book.id}`} key={book.id}>
+              <div className="recommended-book"> {/* Reusing styles from recommended books */}
+                <div className="recommended-book__image-wrapper">
+                    <Image src={book.imageLink} alt={book.title} width={150} height={150} />
+                </div>
+                <div className="recommended-book__details">
+                                    <h3 className="recommended-book__title">
+                    {book.title}
+                    {!user && book.subscriptionRequired && <span className="recommended-book__premium-tag"> (Premium)</span>}
+                  </h3>
+                  <p className="recommended-book__author">{book.author}</p>
+                  <p className="recommended-book__subtitle">{book.subTitle}</p>
+                  <div className="recommended-book__info">
+                    <div className="recommended-book__duration">
+                      <AiFillAudio />
+                      <span>3:34</span>
+                    </div>
+                    <div className="recommended-book__rating">
+                      <AiFillStar />
+                      <span>{book.averageRating}</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </Link>
+          ))
+        )}
       </div>
     </section>
   );

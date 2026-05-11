@@ -70,7 +70,7 @@ function HomeComponent() {
             {user ? (
               <li className="nav__list nav__list--logout" onClick={handleLogout}>Logout</li>
             ) : (
-              <li className="nav__list nav__list--login" onClick={openModal}>Login</li>
+              <li className="nav__list nav__list--login" onClick={() => openModal()}>Login</li>
             )}
             <li className="nav__list nav__list--mobile">About</li>
             <li className="nav__list nav__list--mobile">Contact</li>
@@ -94,7 +94,7 @@ function HomeComponent() {
                   <br className="remove--tablet" />
                   and even people who don’t like to read.
                 </div>
-                {!user && <button className="btn home__cta--btn" onClick={openModal}>Login</button>}
+                {!user && <button className="btn home__cta--btn" onClick={() => openModal()}>Login</button>}
               </div>
               <figure className="landing__image--mask">
                 <Image src="/assets/landing.png" alt="landing" width={400} height={400} loading="eager" />
@@ -277,7 +277,7 @@ function HomeComponent() {
               </div>
             </div>
             {!user && <div className="reviews__btn--wrapper">
-              <button className="btn home__cta--btn" onClick={openModal}>Login</button>
+              <button className="btn home__cta--btn" onClick={() => openModal()}>Login</button>
             </div>}
           </div>
         </div>

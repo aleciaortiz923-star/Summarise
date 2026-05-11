@@ -12,7 +12,7 @@ import { useModal } from '@/context/ModalContext';
 const LoginModal: React.FC = () => {
   const { auth } = useFirebase();
   const { loading } = useAuth();
-  const { isModalOpen, closeModal } = useModal();
+  const { isModalOpen, closeModal, redirectPath } = useModal();
   const router = useRouter();
   const [email, setEmail] = React.useState('');
   const [password, setPassword] = React.useState('');
@@ -28,6 +28,9 @@ const LoginModal: React.FC = () => {
     try {
       await signInWithPopup(auth, provider);
       closeModal();
+      if (redirectPath) {
+        router.push(redirectPath);
+      }
     } catch (error: any) {
       setError(error.message);
     }
@@ -38,7 +41,11 @@ const LoginModal: React.FC = () => {
     try {
       await signInAnonymously(auth);
       closeModal();
-      router.push('/for-you');
+      if (redirectPath) {
+        router.push(redirectPath);
+      } else {
+        router.push('/for-you');
+      }
     } catch (error: any) {
       setError(error.message);
     }
@@ -57,11 +64,17 @@ const LoginModal: React.FC = () => {
     try {
       await signInWithEmailAndPassword(auth, email, password);
       closeModal();
+      if (redirectPath) {
+        router.push(redirectPath);
+      }
     } catch (error: any) {
       if (error.code === 'auth/user-not-found') {
         try {
           await createUserWithEmailAndPassword(auth, email, password);
           closeModal();
+          if (redirectPath) {
+            router.push(redirectPath);
+          }
         } catch (registerError: any) {
           setError(registerError.message);
         }

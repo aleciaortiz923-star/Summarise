@@ -10,6 +10,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlay, faPause, faRotateLeft, faRotateRight, faTimes } from '@fortawesome/free-solid-svg-icons';
 import Link from 'next/link';
 import { useFontSize } from '@/context/FontSizeContext';
+import Skeleton from '@/components/Skeleton';
+import { useAuth } from '@/context/AuthContext';
 
 interface Book {
   id: string;
@@ -45,7 +47,9 @@ const PlayerPage = () => {
         } catch (error) {
           console.error('Error fetching book:', error);
         } finally {
-          setLoading(false);
+          setTimeout(() => {
+            setLoading(false);
+          }, 500);
         }
       };
 
@@ -125,10 +129,35 @@ const PlayerPage = () => {
 
   if (loading) {
     return (
-      <div className="for-you-page__main-content">
+      <>
         <Nav />
-        <div>Loading...</div>
-      </div>
+        <div className="player-page__summary">
+          <Skeleton width="300px" height="36px" className="player-page__summary-title" />
+          <div className="player-page__summary-text">
+            <Skeleton width="100%" height="16px" />
+            <Skeleton width="100%" height="16px" />
+            <Skeleton width="100%" height="16px" />
+            <Skeleton width="50%" height="16px" />
+          </div>
+        </div>
+        <div className="player-controls__container">
+          <div className="player-controls__book-details">
+            <Skeleton width="40px" height="40px" />
+            <div>
+              <Skeleton width="120px" height="16px" />
+              <Skeleton width="80px" height="14px" />
+            </div>
+          </div>
+          <div className="player-controls__buttons">
+            <Skeleton width="40px" height="40px" />
+            <Skeleton width="60px" height="60px" />
+            <Skeleton width="40px" height="40px" />
+          </div>
+          <div className="player-controls__timeline-container">
+            <Skeleton width="100%" height="8px" />
+          </div>
+        </div>
+      </>
     );
   }
 
@@ -157,8 +186,8 @@ const PlayerPage = () => {
           <Image
             src={book.imageLink}
             alt={book.title}
-            width={56}
-            height={56}
+            width={40}
+            height={40}
             className="player-controls__book-image"
           />
           <div>

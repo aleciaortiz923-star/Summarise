@@ -24,13 +24,12 @@ const Sidebar = () => {
   const handleLogout = async () => {
     if (auth) {
       await auth.signOut();
-      openModal();
     }
   };
 
   const links = [
     { name: 'For you', href: '/for-you', icon: AiOutlineHome },
-    { name: 'My Library', href: '/library', icon: BsBookmark },
+    { name: 'My Library', href: '/library', icon: BsBookmark, disabled: true },
     { name: 'Highlights', href: '/highlights', icon: BsPencil, disabled: true },
     { name: 'Search', href: '/search', icon: AiOutlineSearch, disabled: true },
   ];
@@ -90,7 +89,7 @@ const Sidebar = () => {
             <span>Logout</span>
           </div>
         ) : (
-          <div className="sidebar__link" onClick={openModal}>
+          <div className="sidebar__link" onClick={() => openModal()}>
             <FiLogIn />
             <span>Login</span>
           </div>
